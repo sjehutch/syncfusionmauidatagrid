@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="SfDatagrid.SFDosagePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+    xmlns:viewModels="clr-namespace:SfDatagrid"
+    Title="Dosage Info">
+
+    <!--  Bind the page to your ViewModel  -->
+    <ContentPage.BindingContext>
+        <viewModels:SFDosagePageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <!--  Style for column headers: no wrapping and center aligned  -->
+        <Style x:Key="DataGridHeaderStyle" TargetType="Label">
+            <Setter Property="LineBreakMode" Value="NoWrap" />
+            <Setter Property="HorizontalTextAlignment" Value="Center" />
+            <Setter Property="VerticalTextAlignment" Value="Center" />
+            <Setter Property="FontAttributes" Value="Bold" />
+        </Style>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+
+        <Grid Padding="10" RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <!--  Top controls  -->
+                <RowDefinition Height="*" />
+                <!--  DataGrid  -->
+            </Grid.RowDefinitions>
+
+            <!--  Top control row: Add/Delete buttons + index input  -->
+            <Grid Grid.Row="0" ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Column="0"
+                    IsVisible="False"
+                    Text="Index:"
+                    VerticalOptions="Center" />
+                <Entry
+                    Grid.Column="0"
+                    IsVisible="False"
+                    Keyboard="Numeric"
+                    Placeholder="Row Index"
+                    Text="{Binding IndexText}" />
+
+                <Button
+                    Grid.Column="0"
+                    BackgroundColor="LightGreen"
+                    Command="{Binding AddRowCommand}"
+                    Text="Add Row" />
+
+                <Button
+                    Grid.Column="1"
+                    BackgroundColor="LightCoral"
+                    Command="{Binding DeleteRowCommand}"
+                    Text="Delete Row" />
+            </Grid>
+
+            <!--  Syncfusion DataGrid with bound Area model  -->
+            <syncfusion:SfDataGrid
+                x:Name="DataGrid"
+                Grid.Row="1"
+                AllowDeleting="True"
+                AllowEditing="True"
+                AllowResizingColumns="True"
+                ColumnWidthMode="Auto"
+                DefaultColumnWidth="120"
+                GridLinesVisibility="Both"
+                HeaderGridLinesVisibility="Both"
+                HeaderRowHeight="70"
+                ItemsSource="{Binding Areas}"
+                NavigationMode="Cell"
+                SelectionChanged="Datagrid_SelectionChanged"
+                SelectionMode="Single">
+
+                <syncfusion:DataGridTextColumn HeaderText="Area Name" MappingName="AreaName" />
+                <syncfusion:DataGridNumericColumn HeaderText="Estimated Half Loss" MappingName="EstimatedHalfLossTime" />
+                <syncfusion:DataGridNumericColumn HeaderText="Exposure Time" MappingName="ExposureTime" />
+                <syncfusion:DataGridCheckBoxColumn HeaderText="Fumigant Required" MappingName="FumigantRequired" />
+                <syncfusion:DataGridNumericColumn HeaderText="Temperature" MappingName="Temperature" />
+                <syncfusion:DataGridNumericColumn HeaderText="Area Volume" MappingName="AreaVolume" />
+                <syncfusion:DataGridNumericColumn HeaderText="User Defined CT" MappingName="UserDefinedCT" />
+                <syncfusion:DataGridTextColumn HeaderText="Target CT" MappingName="TargetCT" />
+                <syncfusion:DataGridTextColumn HeaderText="Initial Concentration" MappingName="InitialConcentration" />
+            </syncfusion:SfDataGrid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
